@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>無題ドキュメント</title>
+<script type="text/javascript">
+/*数字のマッチング*/
+function chkNum(T){
+	if(T.value.match(/[^0-9]/g)){
+		T.value = "";
+		alert("数値以外は入力できません");
+		document.myForm.tbox.value = T.replace(/[^0-9]/g,"");
+	}
+}
+/*アルファベットのマッチング*/
+function chkAlp(T){
+	if(T.value.match(/[^a-z]/gi)){
+		T.value = "";
+		alert("アルファベット以外は入力できません");
+	}
+}
+
+
+function conComma(T){
+	if(T.value == "")return;
+	if(isNaN(T.value)){
+		alert("数字以外の文字列があります");
+		T.select();
+	} else {
+		var re = new RegExp('([0-9]+)([0-9]+[0-9]+[0-9]+)');
+		var arNum = T.value.split('.');
+		while(re.test(arNum[0]) ){
+			arNum[0] = arNum[0].replace(re, '$1,$2');
+		}
+		if(arNum.length > 0){
+			return T.value = arNum.join('.');
+		} else {
+			return T.value = arNum[0];
+		}
+	}
+}
+
+function deleteObj(O) {
+	var len = O.length;
+	for(var i=0; i<len; i++){
+		O.options[0] = null;
+	}
+}
+
+function addObj(O,V){
+	O.options[O.length] = new Option([V],"値",false,true);
+}
+</script>
+</head>
+
+<body>
+
+<p>数字のマッチング</p>
+<form name="myForm">
+<input type="text" name="tbox" onkeyup="chkNum(this)">
+</form>
+
+<p>アルファベットのマッチング</p>
+<form name="myForm2">
+<input type="text" name="tbox2" onkeyup="chkAlp(this)">
+</form>
+
+
+<p>数字3桁ごとにコンマを入力</p>
+<form name="myForm3">
+<input type="text" name="tbox3">
+<input type="button" value="変換" onClick="conComma(this.form.tbox3)">
+</form>
+
+
+<p>form要素の削除</p>
+<form>
+<select name="sbox">
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+</select>
+<input type="button" value="test" onClick="addObj(this.form.sbox,this.value)">
+<input type="button" value="削除" onClick="deleteObj(this.form.sbox)">
+</form>
+
+</body>
+</html>
